@@ -3,6 +3,7 @@ default[:gitlab][:home] = "/home/git"
 default[:gitlab][:url] = "http://localhost"
 default[:gitlab][:repository] = "https://github.com/gitlabhq/gitlabhq.git"
 default[:gitlab][:revision] = "6-0-stable"
+default[:gitlab][:ruby] = "2.0.0-p247"
 
 # Gitlab shell
 default[:gitlab][:shell][:repository] = "https://github.com/gitlabhq/gitlab-shell.git"
