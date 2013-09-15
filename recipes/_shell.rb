@@ -14,6 +14,7 @@ end
 
 bash "install-gitlab-shell" do
   user node.gitlab.user
+  group node.gitlab.user
   cwd "#{node.gitlab.home}/gitlab-shell"
   code "./bin/install"
   action :nothing

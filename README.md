@@ -1,5 +1,10 @@
 # gitlab cookbook
 
+
+login.........admin@local.host
+password......5iveL!fe
+
+
 # Requirements
 
 # Usage

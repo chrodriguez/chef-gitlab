@@ -9,5 +9,4 @@ version          '0.1.0'
 depends          'apt', "~> 1.10.0"
 depends          'mysql', "~> 3.0.4"
 depends          'database', "~> 1.4.0"
-depends          'rbenv', "~> 0.7.2"
-depends          'ruby_build', '~> 0.8.0'
+depends          'rvm', "~> 0.9.0"
