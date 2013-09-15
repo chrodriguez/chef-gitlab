@@ -15,6 +15,14 @@ end
 
 directory "#{node.gitlab.home}/gitlab-satellites" do
   owner node.gitlab.user
+  group node.gitlab.user
+end
+
+directory "#{node.gitlab.home}/repositories/root" do
+  owner node.gitlab.user
+  group node.gitlab.user
+  mode 0770
+  recursive true
 end
 
 template "#{node.gitlab.home}/gitlab/config/gitlab.yml" do
@@ -46,6 +54,7 @@ rvm_shell "initialize-gitlab" do
   code <<-EOS
     bundle install --deployment --without development test postgres aws
     bundle exec rake gitlab:setup RAILS_ENV=production force=yes
+    bundle exec rake assets:precompile RAILS_ENV=production
   EOS
   not_if "test -f /etc/init.d/gitlab"
 end
