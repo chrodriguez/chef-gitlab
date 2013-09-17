@@ -30,11 +30,13 @@ end
 template "#{node.gitlab.home}/gitlab/config/gitlab.yml" do
   source "gitlab.yml.erb"
   owner node.gitlab.user
+  notifies :restart, "service[gitlab]"
 end
 
 template "#{node.gitlab.home}/gitlab/config/database.yml" do
   source "database.yml.erb"
   owner node.gitlab.user
+  notifies :restart, "service[gitlab]"
 end
 
 template "#{node.gitlab.home}/gitlab/config/unicorn.rb" do
@@ -57,6 +59,7 @@ if node.gitlab.omniauth.enabled and node.gitlab.omniauth.saml
   end
   template "#{node.gitlab.home}/gitlab/config/initializers/devise.rb" do
     user node.gitlab.user
+    notifies :restart, "service[gitlab]"
   end
 
 end
@@ -66,6 +69,13 @@ rvm_shell "initialize-gitlab" do
   cwd "#{node.gitlab.home}/gitlab"
   code <<-EOS
     bundle install --no-deployment --without development test postgres aws
+  EOS
+end
+
+rvm_shell "initialize-gitlab" do
+  user node.gitlab.user
+  cwd "#{node.gitlab.home}/gitlab"
+  code <<-EOS
     bundle exec rake gitlab:setup RAILS_ENV=production force=yes
     bundle exec rake assets:precompile RAILS_ENV=production
   EOS
@@ -80,6 +90,7 @@ end
 service "gitlab" do
     supports :status => true, :restart => true, :reload => true
     action [ :enable, :start ]
+    only_if "test -x /etc/init.d/gitlab"
 end
 
 template "/etc/nginx/sites-available/gitlab" do
