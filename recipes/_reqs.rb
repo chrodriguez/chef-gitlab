@@ -11,6 +11,7 @@ user node.gitlab.user do
   gid node.gitlab.user
   home node.gitlab.home
   supports(manage_home: true)
+  shell '/bin/bash'
 end
 
 

@@ -18,11 +18,13 @@ directory "#{node.gitlab.home}/gitlab-satellites" do
   group node.gitlab.user
 end
 
-directory "#{node.gitlab.home}/repositories/root" do
-  owner node.gitlab.user
-  group node.gitlab.user
-  mode 0770
-  recursive true
+%w{repositories repositories/root}.each do |dir|
+  directory "#{node.gitlab.home}/#{dir}" do
+    owner node.gitlab.user
+    group node.gitlab.user
+    mode 0770
+    recursive true
+  end
 end
 
 template "#{node.gitlab.home}/gitlab/config/gitlab.yml" do
@@ -48,11 +50,22 @@ bash "configure-git" do
   EOS
 end
 
+if node.gitlab.omniauth.enabled and node.gitlab.omniauth.saml
+  bash "add_omniauth_saml" do
+    code "echo gem '\"omniauth-saml\"' >> #{node.gitlab.home}/gitlab/Gemfile"
+    not_if "grep -q omniauth-saml #{node.gitlab.home}/gitlab/Gemfile"
+  end
+  template "#{node.gitlab.home}/gitlab/config/initializers/devise.rb" do
+    user node.gitlab.user
+  end
+
+end
+
 rvm_shell "initialize-gitlab" do
   user node.gitlab.user
   cwd "#{node.gitlab.home}/gitlab"
   code <<-EOS
-    bundle install --deployment --without development test postgres aws
+    bundle install --no-deployment --without development test postgres aws
     bundle exec rake gitlab:setup RAILS_ENV=production force=yes
     bundle exec rake assets:precompile RAILS_ENV=production
   EOS

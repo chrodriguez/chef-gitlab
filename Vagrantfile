@@ -76,7 +76,22 @@ Vagrant.configure("2") do |config|
         :server_root_password => 'rootpass',
         :server_debian_password => 'debpass',
         :server_repl_password => 'replpass'
-      }
+      },
+#      :gitlab => {
+#        :omniauth => {
+#          enabled: true,
+#          allow_single_sign_on: true,
+#          block_auto_created_users: false,
+#          providers: [ 'saml' ],
+#          saml: {
+#            callback:               'http://33.33.33.10/users/auth/saml/callback',
+#            issuer:                 'unlp.cespi.gitlab',
+#            idp_sso_target_url:     'https://sso.unlp.edu.ar/saml2/idp/SSOService.php',
+#            idp_cert_fingerprint:   'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
+#            name_identifier_format: 'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
+#          }
+#        }
+#      }
     }
 
     chef.run_list = [

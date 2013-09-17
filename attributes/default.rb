@@ -28,3 +28,13 @@ default[:gitlab][:default_projects_features] = {
       wall: false,
       snippets: false
 }
+
+default[:gitlab][:omniauth][:enabled] = false
+default[:gitlab][:omniauth][:allow_single_sign_on] = false
+default[:gitlab][:omniauth][:block_auto_created_users] = true
+default[:gitlab][:omniauth][:providers] = []
+default[:gitlab][:omniauth][:saml][:callback] = nil
+default[:gitlab][:omniauth][:saml][:issuer] = nil
+default[:gitlab][:omniauth][:saml][:idp_sso_target_url] = nil
+default[:gitlab][:omniauth][:saml][:idp_cert_fingerprint] = nil
+default[:gitlab][:omniauth][:saml][:name_identifier_format] = nil
