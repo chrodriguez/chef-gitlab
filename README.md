@@ -110,7 +110,10 @@ default[:gitlab][:omniauth][:saml][:name_identifier_format] = nil
 
 ```
 
-## Editing 
+## Modify attributes for Vagrant
+
+Please check provided `Vagrantfile` and change any attribute and it will be
+reflected in your installation
 
 # Recipes
 
